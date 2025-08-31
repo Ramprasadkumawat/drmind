@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User; // Use the User model
+use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
