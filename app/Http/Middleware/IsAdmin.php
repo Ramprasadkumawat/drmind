@@ -6,6 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 class IsAdmin
 {
     /**
@@ -15,11 +17,11 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('admin')->check()) {
+        if (Auth::check() && Auth::user()->is_admin) {
             return $next($request);
         }
 
+        Auth::logout(); // Log out if not admin
         return redirect('/login')->with('error', 'You do not have admin access');
-        //return $next($request);
     }
 }

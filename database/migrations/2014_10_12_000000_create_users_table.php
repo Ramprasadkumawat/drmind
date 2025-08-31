@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('referral_by')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+            $table->index('referral_by');
         });
     }
 

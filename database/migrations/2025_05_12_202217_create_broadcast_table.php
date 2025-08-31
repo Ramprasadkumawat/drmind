@@ -15,9 +15,14 @@ return new class extends Migration
             $table->id();
             $table->text('message');
             $table->string('title');
+            $table->unsignedBigInteger('user_id');
             $table->string('image')->nullable(); // optional thumbnail or cover image
             $table->string('slug')->unique(); // for shareable URLs
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->index('user_id');
            
         });
     }

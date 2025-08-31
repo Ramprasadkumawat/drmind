@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Broadcast;
 use App\Models\Testimonial;
 use App\Models\Blog;
+use App\Models\Page;
 class HomeController extends Controller
 {
    function index()
@@ -36,8 +37,9 @@ class HomeController extends Controller
             }
         }
       
-       return view('home', compact('title','category','data'));
-   }
+        $publishedPages = Page::where('is_published', true)->get();
+        return view('home', compact('title','category','data', 'publishedPages'));
+    }
    function signup()
    {
        $title = "Sign Up";
@@ -131,5 +133,11 @@ class HomeController extends Controller
        $title = "About Us";
        return view('about-us', compact('title'));
    }
-   
+
+    public function showPage($slug)
+    {
+        $page = Page::where('slug', $slug)->where('is_published', true)->firstOrFail();
+        $title = $page->name;
+        return view('page', compact('title', 'page'));
+    }
 }

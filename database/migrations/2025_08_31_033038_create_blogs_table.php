@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admin', function (Blueprint $table) {
+        Schema::create('blogs', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('password');
-            $table->tinyInteger('status')->nullable()->default(1)->comment('1=active, 2=block');
-            $table->string('type')->nullable()->default('admin')->comment('super,admin');
+            $table->string('title');
+            $table->string('status')->default('draft')->index();
+            $table->string('image')->nullable();
+            $table->longText('message')->nullable();
+            $table->string('slug')->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admin');
+        Schema::dropIfExists('blogs');
     }
 };

@@ -3,13 +3,37 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
+use App\Models\User; // Use the User model
 
 class UserSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('users')->truncate(); // Remove old data
+        User::truncate(); // Clear old data using the model
+
+        // Create a specific admin user
+        User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'is_admin' => true,
+            'email_verified_at' => now(),
+            'referral_code' => Str::random(8),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Create a specific regular user
+        User::create([
+            'name' => 'Regular User',
+            'email' => 'user@example.com',
+            'password' => Hash::make('password'),
+            'is_admin' => false,
+            'email_verified_at' => now(),
+            'referral_code' => Str::random(8),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         $users = [];
         $referralMap = []; // [referral_code => user array]
@@ -27,6 +51,7 @@ class UserSeeder extends Seeder
                 'earning_point' => rand(1000, 10000),
                 'phone' => fake()->phoneNumber(),
                 'remember_token' => Str::random(10),
+                'is_admin' => false, // Ensure non-admin for dummy users
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -46,6 +71,7 @@ class UserSeeder extends Seeder
             $user['referral_by'] = $referrer['referral_code'];
         }
 
-        DB::table('users')->insert($users);
+        // Insert the dynamically generated users
+        User::insert($users);
     }
 }

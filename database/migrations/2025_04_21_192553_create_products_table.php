@@ -55,9 +55,11 @@ return new class extends Migration
             $table->index('base_price');
             $table->index('product_discount_type');
             $table->index('discount_value');
+            $table->index('product_status');
 
             // Add FULLTEXT index for full-text search
             $table->fullText(['product_name', 'manufacturar_name', 'description', 'short_description'], 'products_fulltext_index');
+            $table->softDeletes();
         });
     }
 

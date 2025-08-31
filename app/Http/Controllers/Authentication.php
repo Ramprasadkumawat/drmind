@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Admin;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\User; // Add this to use the User model
 
 class Authentication extends Controller
 {
@@ -19,9 +19,14 @@ function login(Request $request){
                'email' => 'required|email',
                'password' => 'required',
        ]);
-       if(Auth::guard(name: 'admin')->attempt($request->only('email', 'password'))){
-               $admin = Auth::guard('admin')->user();
-               return redirect()->route('admin.dashboard');
+
+       if(Auth::attempt($request->only('email', 'password'))){
+               $user = Auth::user();
+               if ($user->is_admin) {
+                   return redirect()->route('admin.dashboard');
+               } else {
+                   return redirect()->route('home.index'); // Or a specific user dashboard route
+               }
        }
        return back()->with('error', 'Invalid email or password.');
 }
@@ -64,7 +69,7 @@ function login(Request $request){
      return back()->with('error', 'Invalid username or password.');
      }
      function logout(Request $request){
-          auth()->logout();
+          Auth::logout(); // Use Auth facade for logout
           $request->session()->invalidate();
           $request->session()->regenerateToken();
           return redirect()->route('user.login');

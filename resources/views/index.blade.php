@@ -87,6 +87,14 @@ s0.parentNode.insertBefore(s1,s0);
           <li class="nav-item">
             <a class="nav-link text-light" href="{{ route('home.contact') }}">Contact Us</a>
           </li>
+          {{-- Dynamic Pages --}}
+          @if (isset($publishedPages))
+              @foreach ($publishedPages as $page)
+                  <li class="nav-item">
+                      <a class="nav-link text-light" href="{{ url('page/' . $page->slug) }}">{{ $page->name }}</a>
+                  </li>
+              @endforeach
+          @endif
           {{-- <li class="nav-item">
             <a class="nav-link text-light" href="{{ route('home.faq') }}">FAQ</a>
           </li> --}}

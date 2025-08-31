@@ -1,0 +1,42 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\Broadcast;
+use App\Models\User;
+use Illuminate\Support\Str;
+use Faker\Factory as Faker;
+
+class BroadcastSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        Broadcast::truncate();
+        $faker = Faker::create();
+
+        $users = User::all();
+
+        if ($users->isEmpty()) {
+            $this->call(UserSeeder::class);
+            $users = User::all();
+        }
+
+        foreach ($users as $user) {
+            for ($i = 0; $i < 2; $i++) { // Create 2 broadcasts per user
+                $title = $faker->sentence(5);
+                Broadcast::create([
+                    'user_id' => $user->id,
+                    'title' => $title,
+                    'slug' => Str::slug($title . '-' . Str::random(5)),
+                    'message' => $faker->paragraphs(3, true),
+                    'image' => 'broadcasts/broadcast-' . rand(1, 5) . '.jpg',
+                ]);
+            }
+        }
+    }
+}

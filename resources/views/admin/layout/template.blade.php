@@ -315,7 +315,7 @@
                                 </a>
                                 <ul class="nav collapse" id="categorys">
 
-                                 
+
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('categories.create') }}">
                                             <div class="d-flex align-items-center"><span
@@ -333,6 +333,13 @@
 
 
                                 </ul>
+
+                                <!-- Pages Module Link -->
+                                <a class="nav-link" href="{{ route('pages.index') }}" role="button">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                class="fas fa-file"></span></span><span
+                                            class="nav-link-text ps-1">Pages</span></div>
+                                </a>
 
                             </li>
 

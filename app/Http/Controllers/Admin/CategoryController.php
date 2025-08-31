@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -86,36 +88,31 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $validated = $request->validate([
             'type' => 'required|in:physical,e-product,services',
-            'category_name' => 'required|string|max:255|unique:categories,name,' . ($request->id ?? 'NULL') . ',id',
+            'category_name' => 'required|string|max:255|unique:categories,name',
+            'slug' => 'nullable|string|max:255|unique:categories,slug',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        $slug = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['category_name']);
+
+        $imagePath = null;
         if ($request->hasFile('image')) {
-            $uploadDir = public_path('assets/img/category');
-            if (!file_exists($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
-            }
             $image = $request->file('image');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move($uploadDir, $imageName);
-            $validated['image_path'] = 'assets/img/category/' . $imageName;
-        } else {
-            $validated['image_path'] = null;
-        }
-        
-        if (isset($request->id)) {
-            $msg = "Category Updated successfully";
-            $category = Category::findOrFail($request->id);
-          //  dd($category); 
-            $category->update($validated);
-        } else {
-            $msg = "Category created successfully";
-            Category::create($validated);
+            $path = $image->store('public/categories');
+            $imagePath = str_replace('public/', '', $path);
         }
 
-        return redirect()->route('categories.index')
-            ->with('success', $msg);
+        Category::create([
+            'type' => $validated['type'],
+            'name' => $validated['category_name'],
+            'slug' => $slug,
+            'image_path' => $imagePath,
+        ]);
+
+        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
     }
 
     /**
@@ -142,21 +139,43 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
+            'type' => 'required|in:physical,e-product,services',
             'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
-            'description' => 'nullable|string',
+            'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'delete_image' => 'nullable|boolean',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+        $slug = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['name']);
+
+        $imagePath = $category->image_path;
+
+        // Handle image deletion
+        if ($request->has('delete_image') && $request->input('delete_image') && $imagePath) {
+            Storage::delete('public/' . $imagePath);
+            $imagePath = null;
         }
 
-        $category->update($request->only('name', 'description'));
+        // Handle new image upload
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($category->image_path) {
+                Storage::delete('public/' . $category->image_path);
+            }
+            $image = $request->file('image');
+            $path = $image->store('public/categories');
+            $imagePath = str_replace('public/', '', $path);
+        }
 
-        return redirect()->route('categories.index')
-            ->with('success', 'Category updated successfully.');
+        $category->update([
+            'type' => $validated['type'],
+            'name' => $validated['name'],
+            'slug' => $slug,
+            'image_path' => $imagePath,
+        ]);
+
+        return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
     }
 
     /**
@@ -164,6 +183,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        if ($category->image_path) {
+            Storage::delete('public/' . $category->image_path);
+        }
         $category->delete();
 
         return redirect()->route('categories.index')

@@ -56,6 +56,19 @@
                           @enderror
                         </div>
 
+                        <!-- Slug Field -->
+                        <div class="col-12 mb-3">
+                            <label class="form-label" for="slug">Slug (Optional - will be generated if empty):</label>
+                            <input class="form-control @error('slug') is-invalid @enderror"
+                                id="slug"
+                                name="slug"
+                                type="text"
+                                value="{{ old('slug', isset($category) ? $category->slug : '') }}" />
+                            @error('slug')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="col-12 mb-3">
                           <label class="form-label" for="image">Image:</label>
                           <input class="form-control @error('image') is-invalid @enderror"
@@ -65,7 +78,13 @@
                           />
                           @if(isset($category) && $category->image_path)
                           <div class="mt-2">
-                            <img src="{{ asset($category->image_path) }}" alt="Category Image" style="max-width: 120px; max-height: 120px;">
+                            <img src="{{ asset('storage/' . $category->image_path) }}" alt="Category Image" style="max-width: 120px; max-height: 120px;">
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" name="delete_image" value="1" id="deleteImage">
+                                <label class="form-check-label" for="deleteImage">
+                                    Delete Existing Image
+                                </label>
+                            </div>
                           </div>
                           @endif
                           @error('image')
