@@ -14,7 +14,6 @@ use App\Http\Controllers\BroadcastController;
 Route::get('/',[HomeController::class, 'index'])->name('home.index');
 Route::get('/signup', [HomeController::class, 'signup'])->name('user.signup');
 Route::post('/createAccount',[HomeController::class, 'createAccount'])->name('user.signup.account.create');
-Route::get('/user-login', [HomeController::class, 'login'])->name('user.login');
 Route::post('/userpost-login',[Authentication::class,'UserLogin'])->name('user.account-login');
 Route::get('/home-broadcast',[HomeController::class,'broadcast'])->name('home.broadcast');
 Route::get('/subscriptionproducts', [HomeController::class, 'subscriptionProducts'])->name('user.view.subscription');

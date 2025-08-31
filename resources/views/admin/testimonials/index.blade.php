@@ -78,7 +78,7 @@
                             <td class="status">{{ $item->created_at }}</td>
                             
                             <td class="action">
-                                <a href="{{ route('testimonials-edit',['id'=>$item->id])}}" title="Under Development" class="badge bg-info">Edit</a>
+                                <a href="{{ route('admin.testimonials-edit',['id'=>$item->id])}}" title="Under Development" class="badge bg-info">Edit</a>
                                 <a href="{{ route('testimonials-page-with-url',['slug'=> $item->slug])}}"  target="_blank" title="Under Development" class="badge bg-info">View</a>
                                 <form action="#" method="POST" style="display:inline; display:none;">
                                   @csrf

@@ -23,7 +23,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data">
 
                       @csrf
                       <div class="row gx-2">
@@ -46,12 +46,12 @@
                         <!-- Category Name Field -->
                         <div class="col-12 mb-3">
                           <label class="form-label" for="manufacturar-name">Category Name:</label>
-                            <input class="form-control @error('category_name') is-invalid @enderror"
+                            <input class="form-control @error('name') is-invalid @enderror"
                                id="manufacturar-name"
-                               name="category_name"
+                               name="name"
                                type="text"
-                               value="{{ old('category_name', isset($category) ? $category->name : '') }}" />
-                          @error('category_name')
+                               value="{{ old('name', isset($category) ? $category->name : '') }}" />
+                          @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                           @enderror
                         </div>
@@ -147,8 +147,8 @@
                             <td class="email">{{ $item->type }}</td>
                             <td class="status">{{ $item->status==1 ? 'Active' : 'Disable' }}</td>
                             <td class="action">
-                                <a href="{{ route('categories.edit', $item->id) }}" class="badge bg-info">Edit</a>
-                                <form action="{{ route('categories.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                <a href="{{ route('admin.categories.edit', $item->id) }}" class="badge bg-info">Edit</a>
+                                <form action="{{ route('admin.categories.destroy', $item->id) }}" method="POST" style="display:inline;">
                                   @csrf
                                   @method('DELETE')
                                   <button type="submit" class="badge bg-danger border-0" onclick="return confirm('Are you sure you want to delete this category?')">Delete</button>

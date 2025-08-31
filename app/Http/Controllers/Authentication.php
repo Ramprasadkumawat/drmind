@@ -72,6 +72,6 @@ function login(Request $request){
           Auth::logout(); // Use Auth facade for logout
           $request->session()->invalidate();
           $request->session()->regenerateToken();
-          return redirect()->route('user.login');
+          return redirect('/login');
      }
 }

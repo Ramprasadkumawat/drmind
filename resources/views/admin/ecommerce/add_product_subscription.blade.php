@@ -7,7 +7,7 @@
     <link href="vendors/flatpickr/flatpickr.min.css" rel="stylesheet">
     <link href="vendors/dropzone/dropzone.css" rel="stylesheet">
 
-    <form class="dropzone dropzone-multiple p-0" id="dropzoneMultipleFileUpload" action="{{ route('create-subscription-product.store') }}"
+    <form class="dropzone dropzone-multiple p-0" id="dropzoneMultipleFileUpload" action="{{ route('admin.create-subscription-product.store') }}"
         method="POST" enctype="multipart/form-data">
         @csrf
         <div class="card mb-3">

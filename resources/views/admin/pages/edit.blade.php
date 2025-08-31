@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h1>Edit Page: {{ $page->name }}</h1>
-    <form action="{{ route('pages.update', $page->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.pages.update', $page->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="mb-3">
@@ -72,7 +72,7 @@
             </div>
         @endif
         <button type="submit" class="btn btn-success">Update Page</button>
-        <a href="{{ route('pages.index') }}" class="btn btn-secondary">Cancel</a>
+        <a href="{{ route('admin.pages.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 @endsection

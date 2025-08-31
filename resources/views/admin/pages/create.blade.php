@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h1>Create New Page</h1>
-    <form action="{{ route('pages.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.pages.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="category_id" class="form-label">Category</label>
@@ -53,7 +53,7 @@
             @enderror
         </div>
         <button type="submit" class="btn btn-success">Create Page</button>
-        <a href="{{ route('pages.index') }}" class="btn btn-secondary">Cancel</a>
+        <a href="{{ route('admin.pages.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 @endsection

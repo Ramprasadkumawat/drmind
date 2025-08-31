@@ -62,7 +62,7 @@ class PageController extends Controller
             'image_paths' => json_encode($imagePaths),
         ]);
 
-        return redirect()->route('pages.index')->with('success', 'Page created successfully.');
+        return redirect()->route('admin.pages.index')->with('success', 'Page created successfully.');
     }
 
     /**
@@ -131,7 +131,7 @@ class PageController extends Controller
             'image_paths' => json_encode($updatedImagePaths),
         ]);
 
-        return redirect()->route('pages.index')->with('success', 'Page updated successfully.');
+        return redirect()->route('admin.pages.index')->with('success', 'Page updated successfully.');
     }
 
     /**
@@ -145,7 +145,7 @@ class PageController extends Controller
             }
         }
         $page->delete();
-        return redirect()->route('pages.index')->with('success', 'Page deleted successfully.');
+        return redirect()->route('admin.pages.index')->with('success', 'Page deleted successfully.');
     }
 
     /**
@@ -157,6 +157,6 @@ class PageController extends Controller
         $page->save();
 
         $message = $page->is_published ? 'published' : 'unpublished';
-        return redirect()->route('pages.index')->with('success', "Page {$page->name} has been {$message} successfully.");
+        return redirect()->route('admin.pages.index')->with('success', "Page {$page->name} has been {$message} successfully.");
     }
 }

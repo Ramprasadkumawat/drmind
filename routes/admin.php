@@ -10,10 +10,11 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Admin\ProductSubscription;
 use App\Http\Controllers\Admin\PageController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Authentication;
 
 Route::middleware(['auth', 'is_admin'])->group(function () {
 
-    Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashboard');
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 
     Route::resource('add-product', AddProductController::class)->names([
         'index' => 'add-product',
@@ -70,7 +71,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
 
     Route::get('users-list',[UsersController::class, 'index']);
     Route::get('/user-referral/{referral_code}', [UsersController::class, 'getHierarchy']);
-    Route::get('/referral-tree', [UsersController::class, 'tree']);
+    Route::get('referral-tree', [UsersController::class, 'tree']);
 
     Route::get('view-level', function () {
         $heading="Users Level";
@@ -83,14 +84,14 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     });
 
     Route::get('/broadcasts',[BroadcastController::class, 'index'])->name('broadcasts.index');
-    Route::post('/create-broadcasts',[BroadcastController::class, 'store'])->name('admin.broadcast.store');
-    Route::get('delete/{id}', [BroadcastController::class, 'delete'])->name('admin.broadcast.delete');
+    Route::post('/create-broadcasts',[BroadcastController::class, 'store'])->name('broadcast.store');
+    Route::get('delete/{id}', [BroadcastController::class, 'delete'])->name('broadcast.delete');
 
     Route::get('/testimonials-create',[TestimonialController::class,'create']);
     Route::get('/testimonials-create/{id}',[TestimonialController::class,'create'])->name('testimonials-edit');
     Route::post('/upload-testimonial-image', [TestimonialController::class, 'uploadImage']);
-    Route::post('/testimonial-store', [TestimonialController::class, 'store'])->name('testimonial.store');
-    Route::get('/testimonials-list', [TestimonialController::class, 'index']);
+    Route::post('/testimonial-store',[TestimonialController::class,'store'])->name('testimonial.store');
+    Route::get('/testimonials-list',[TestimonialController::class,'index']);
 
     Route::get('/blogs-list',[BlogController::class,'list'])->name('blogs-list');
     Route::get('/blog-create',[BlogController::class,'createPage'])->name('blog-create');

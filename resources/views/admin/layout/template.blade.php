@@ -116,7 +116,7 @@
                         <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
                             <li class="nav-item">
 
-                                <a class="nav-link" href="{{ url('dashboard') }}" role="button">
+                                <a class="nav-link" href="{{ route('admin.dashboard') }}" role="button">
                                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span
                                                 class="fas fa-chart-pie"></span></span><span
                                             class="nav-link-text ps-1">Dashboard</span></div>
@@ -138,14 +138,14 @@
                                 </a>
                                 <ul class="nav collapse" id="dr">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ url('users-list') }}">
+                                        <a class="nav-link" href="{{ url('admin/users-list') }}">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">Users List</span></div>
                                         </a>
                                         <!-- more inner pages-->
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ url('referral-tree') }}">
+                                        <a class="nav-link" href="{{ url('admin/referral-tree') }}">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">View Level</span></div>
                                         </a>
@@ -178,22 +178,22 @@
                                         </a><!-- more inner pages-->
                                         <ul class="nav collapse" id="products">
                                             <li class="nav-item"><a class="nav-link"
-                                                    href="{{ url('add-product') }}">
+                                                    href="{{ url('admin/add-product') }}">
                                                     <div class="d-flex align-items-center"><span
                                                             class="nav-link-text ps-1">Add Products</span></div>
                                                 </a><!-- more inner pages--></li>
                                             <li class="nav-item"><a class="nav-link"
-                                                    href="{{ route('allProducts') }}">
+                                                    href="{{ route('admin.allProducts') }}">
                                                     <div class="d-flex align-items-center"><span
                                                             class="nav-link-text ps-1">View All Products</span></div>
                                                 </a><!-- more inner pages--></li>
                                             <li class="nav-item"><a class="nav-link"
-                                                    href="{{ route('eProducts') }}">
+                                                    href="{{ route('admin.eProducts') }}">
                                                     <div class="d-flex align-items-center"><span
                                                             class="nav-link-text ps-1">View e-Products</span></div>
                                                 </a><!-- more inner pages--></li>
                                             <li class="nav-item"><a class="nav-link"
-                                                    href="{{ url('allProducts') }}">
+                                                    href="{{ url('admin/allProducts') }}">
                                                     <div class="d-flex align-items-center"><span
                                                             class="nav-link-text ps-1">View Products</span></div>
                                                 </a><!-- more inner pages--></li>
@@ -208,18 +208,18 @@
                                         </a><!-- more inner pages-->
                                         <ul class="nav collapse" id="subscription">
                                             <li class="nav-item"><a class="nav-link"
-                                                    href="{{ route('add-product-subscription') }}">
+                                                    href="{{ route('admin.add-product-subscription') }}">
                                                     <div class="d-flex align-items-center"><span
                                                             class="nav-link-text ps-1">Add Subscription Product</span>
                                                     </div>
                                                 </a><!-- more inner pages--></li>
                                             <li class="nav-item"><a class="nav-link"
-                                                    href="{{ route('admin.view.subscription') }}">
+                                                    href="{{ route('admin.admin.view.subscription') }}">
                                                     <div class="d-flex align-items-center"><span
                                                             class="nav-link-text ps-1">View Subscription</span></div>
                                                 </a><!-- more inner pages--></li>
                                             <li class="nav-item"><a class="nav-link"
-                                                    href="{{ url('allProducts') }}">
+                                                    href="{{ url('admin/order-history') }}">
                                                     <div class="d-flex align-items-center"><span
                                                             class="nav-link-text ps-1">View Orders</span></div>
                                                 </a><!-- more inner pages--></li>
@@ -317,14 +317,14 @@
 
 
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('categories.create') }}">
+                                        <a class="nav-link" href="{{ route('admin.categories.create') }}">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">Add Category</span></div>
                                         </a>
                                         <!-- more inner pages-->
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('subcategory.create') }}">
+                                        <a class="nav-link" href="{{ route('admin.subcategory.create') }}">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">Add Sub-Category</span></div>
                                         </a>
@@ -335,7 +335,7 @@
                                 </ul>
 
                                 <!-- Pages Module Link -->
-                                <a class="nav-link" href="{{ route('pages.index') }}" role="button">
+                                <a class="nav-link" href="{{ route('admin.pages.index') }}" role="button">
                                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span
                                                 class="fas fa-file"></span></span><span
                                             class="nav-link-text ps-1">Pages</span></div>
@@ -356,14 +356,14 @@
                                 </a>
                                 <ul class="nav collapse" id="testimonials">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ url('testimonials-list') }}">
+                                        <a class="nav-link" href="{{ url('admin/testimonials-list') }}">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">List</span></div>
                                         </a>
                                         <!-- more inner pages-->
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ url('testimonials-create') }}">
+                                        <a class="nav-link" href="{{ url('admin/testimonials-create') }}">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">Create</span></div>
                                         </a>
@@ -377,7 +377,7 @@
                             </li>
                             <li class="nav-item">
 
-                                <a class="nav-link" href="{{ url('broadcasts') }}" role="button">
+                                <a class="nav-link" href="{{ url('admin/broadcasts') }}" role="button">
                                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span
                                                 class="fas fa-chart-pie"></span></span><span
                                             class="nav-link-text ps-1">Broadcasts</span></div>
@@ -400,14 +400,14 @@
                                 </a>
                                 <ul class="nav collapse" id="blogs">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ url('blogs-list') }}">
+                                        <a class="nav-link" href="{{ url('admin/blogs-list') }}">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">List</span></div>
                                         </a>
                                         <!-- more inner pages-->
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ url('blog-create') }}">
+                                        <a class="nav-link" href="{{ url('admin/blog-create') }}">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text ps-1">Create</span></div>
                                         </a>

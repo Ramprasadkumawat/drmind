@@ -3,7 +3,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
    
 
-    <form class="dropzone dropzone-multiple p-0" id="dropzoneMultipleFileUpload" action="{{ route('blog.store') }}"
+    <form class="dropzone dropzone-multiple p-0" id="dropzoneMultipleFileUpload" action="{{ route('admin.blog.store') }}"
         method="POST" enctype="multipart/form-data">
         @csrf
         

@@ -33,7 +33,7 @@
         </div>
     @endif
 
-    <a href="{{ route('pages.edit', $page->id) }}" class="btn btn-warning">Edit Page</a>
-    <a href="{{ route('pages.index') }}" class="btn btn-secondary">Back to Pages</a>
+    <a href="{{ route('admin.pages.edit', $page->id) }}" class="btn btn-warning">Edit Page</a>
+    <a href="{{ route('admin.pages.index') }}" class="btn btn-secondary">Back to Pages</a>
 </div>
 @endsection

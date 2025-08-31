@@ -66,15 +66,9 @@ class HomeController extends Controller
         $validate['name'] = $validate['full_name'];
         $validate['password'] = Hash::make($validate['password']);
         User::create($validate);
-        return redirect()->route('user.login')->with('success', 'Account created successfully!');
+        return redirect('/login')->with('success', 'Account created successfully!');
         
    }
-   function login()
-   {
-       $title = "Login";
-       return view('userLogin', compact('title'));
-   }
-
    function about()
    {
        $title = "About Us";
