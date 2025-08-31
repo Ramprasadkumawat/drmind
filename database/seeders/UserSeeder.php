@@ -9,7 +9,9 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         User::truncate(); // Clear old data using the model
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // Create a specific admin user
         User::create([

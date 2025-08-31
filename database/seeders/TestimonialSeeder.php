@@ -15,7 +15,9 @@ class TestimonialSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Testimonial::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $faker = Faker::create();
 
         for ($i = 0; $i < 5; $i++) { // Create 5 testimonials

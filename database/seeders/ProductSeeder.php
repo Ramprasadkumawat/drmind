@@ -16,7 +16,9 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Product::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $faker = Faker::create();
 
         $categories = Category::where('parent_id', 0)->get(); // Main categories
