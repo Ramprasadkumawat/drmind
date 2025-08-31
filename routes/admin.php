@@ -96,3 +96,4 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/blog-create',[BlogController::class,'createPage'])->name('blog-create');
     Route::post('blog.store',[BlogController::class,'store'])->name('blog.store');
 });
+ing 
