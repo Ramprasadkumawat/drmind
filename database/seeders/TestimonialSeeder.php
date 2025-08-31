@@ -18,7 +18,6 @@ class TestimonialSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Testimonial::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $faker = Faker::create();
 
         for ($i = 0; $i < 5; $i++) { // Create 5 testimonials
@@ -31,5 +30,7 @@ class TestimonialSeeder extends Seeder
                 'description' => $faker->paragraphs(2, true),
             ]);
         }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

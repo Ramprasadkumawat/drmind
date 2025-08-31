@@ -13,7 +13,8 @@ class UserSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         User::truncate(); // Clear old data using the model
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        $faker = Faker::create();
 
         // Create a specific admin user
         User::create([
@@ -46,14 +47,14 @@ class UserSeeder extends Seeder
         for ($i = 1; $i <= 100; $i++) {
             $referral_code = Str::random(8);
             $user = [
-                'name' => fake()->name(),
-                'email' => fake()->unique()->safeEmail(),
+                'name' => $faker->name(),
+                'email' => $faker->unique()->safeEmail(),
                 'referral_code' => $referral_code,
                 'referral_by' => null, // we'll assign later
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),
                 'earning_point' => rand(1000, 10000),
-                'phone' => fake()->phoneNumber(),
+                'phone' => $faker->phoneNumber(),
                 'remember_token' => Str::random(10),
                 'is_admin' => false, // Ensure non-admin for dummy users
                 'created_at' => now(),
@@ -77,5 +78,7 @@ class UserSeeder extends Seeder
 
         // Insert the dynamically generated users
         User::insert($users);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

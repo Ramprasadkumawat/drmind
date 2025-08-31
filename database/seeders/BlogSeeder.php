@@ -18,7 +18,6 @@ class BlogSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Blog::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $faker = Faker::create();
 
         for ($i = 0; $i < 10; $i++) { // Create 10 blog posts
@@ -31,5 +30,7 @@ class BlogSeeder extends Seeder
                 'message' => $faker->paragraphs(4, true),
             ]);
         }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
