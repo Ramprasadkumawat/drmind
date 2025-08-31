@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('name'); // Category name
             $table->string('slug')->unique();
             $table->string('type'); // 'physical', 'e-product', 'service'
-            $table->unsignedBigInteger('parent_id')->default(0); // NULL for parent categories
+            $table->unsignedBigInteger('parent_id')->nullable(); // NULL for parent categories
             $table->tinyInteger('status')->default(1)->comment('1=active,2=block');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade')->nullable();
 
         });
     }

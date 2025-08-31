@@ -32,7 +32,7 @@ class CategorySeeder extends Seeder
                 'name' => $categoryData['name'],
                 'slug' => Str::slug($categoryData['name']),
                 'type' => $categoryData['type'],
-                'parent_id' => 0, // 0 for parent categories
+                'parent_id' => null, // null for parent categories
                 'status' => 1,
                 'image_path' => $categoryData['image_path'],
             ]);
