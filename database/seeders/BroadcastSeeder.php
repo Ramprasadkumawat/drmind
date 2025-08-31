@@ -8,6 +8,7 @@ use App\Models\Broadcast;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
 class BroadcastSeeder extends Seeder
 {

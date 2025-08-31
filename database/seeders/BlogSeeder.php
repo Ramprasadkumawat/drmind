@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Blog;
 use Illuminate\Support\Str;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
 class BlogSeeder extends Seeder
 {
