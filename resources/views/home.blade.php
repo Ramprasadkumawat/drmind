@@ -6,7 +6,7 @@
             <div class="col">
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        @if(isset($homepage) && $homepage->slider_text || $homepage->slider_image_path)
+                        @if(isset($homepage) && ($homepage->slider_text || $homepage->slider_image_path))
                         <div class="carousel-item active">
                             <div class="container">
                                 <div class="row">
@@ -39,7 +39,7 @@
                         </div>
                         @endif
                     </div>
-                    @if(isset($homepage) && $homepage->slider_text || $homepage->slider_image_path)
+                    @if(isset($homepage) && ($homepage->slider_text || $homepage->slider_image_path))
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
