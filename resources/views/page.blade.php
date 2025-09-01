@@ -30,7 +30,7 @@
         <div class="row mb-4">
             @foreach(json_decode($page->image_paths) as $imagePath)
                 <div class="col-md-4 mb-3">
-                    <img src="{{ asset('storage/' . $imagePath) }}" class="img-fluid rounded" alt="{{ $page->name }}">
+                    <img src="{{ Str::startsWith($imagePath, 'http') ? $imagePath : asset('storage/' . $imagePath) }}" class="img-fluid rounded" alt="{{ $page->name }}">
                 </div>
             @endforeach
         </div>

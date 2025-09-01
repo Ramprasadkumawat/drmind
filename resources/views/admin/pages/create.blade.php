@@ -52,6 +52,55 @@
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
+
+        {{-- Homepage Settings --}}
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="mb-0">Homepage Settings (Optional)</h5>
+            </div>
+            <div class="card-body">
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="is_homepage" name="is_homepage" value="1" {{ old('is_homepage') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="is_homepage">Set as Homepage</label>
+                    @error('is_homepage')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="slider_text" class="form-label">Homepage Slider Text</label>
+                    <textarea class="form-control" id="slider_text" name="slider_text" rows="3">{{ old('slider_text') }}</textarea>
+                    @error('slider_text')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="slider_image" class="form-label">Homepage Slider Image</label>
+                    <input type="file" class="form-control" id="slider_image" name="slider_image" accept="image/*">
+                    @error('slider_image')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="main_paragraph_content" class="form-label">Homepage Main Paragraph Content</label>
+                    <textarea class="form-control" id="main_paragraph_content" name="main_paragraph_content" rows="5">{{ old('main_paragraph_content') }}</textarea>
+                    @error('main_paragraph_content')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="extr-images" class="form-label">Homepage Extra Images</label>
+                    <input type="file" class="form-control" id="extr-images" name="extr-images[]" multiple accept="image/*">
+                    @error('extr-images.*')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-success">Create Page</button>
         <a href="{{ route('admin.pages.index') }}" class="btn btn-secondary">Cancel</a>
     </form>

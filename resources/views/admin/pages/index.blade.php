@@ -19,6 +19,7 @@
                 <th>Name</th>
                 <th>Slug</th>
                 <th>Published</th>
+                <th>Homepage</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -34,6 +35,13 @@
                             <span class="badge bg-success">Yes</span>
                         @else
                             <span class="badge bg-secondary">No</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if($page->is_homepage)
+                            <span class="badge bg-info">Yes</span>
+                        @else
+                            <span class="badge bg-light">No</span>
                         @endif
                     </td>
                     <td>

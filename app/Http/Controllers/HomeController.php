@@ -38,7 +38,11 @@ class HomeController extends Controller
         }
       
         $publishedPages = Page::where('is_published', true)->get();
-        return view('home', compact('title','category','data', 'publishedPages'));
+
+        // Fetch the homepage content
+        $homepage = Page::where('is_homepage', true)->where('is_published', true)->first();
+
+        return view('home', compact('title','category','data', 'publishedPages', 'homepage'));
     }
    function signup()
    {

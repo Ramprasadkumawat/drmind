@@ -18,6 +18,11 @@ class Page extends Model
         'paragraph_content',
         'image_paths',
         'is_published',
+        'is_homepage',
+        'slider_text',
+        'slider_image_path',
+        'main_paragraph_content',
+        'extr-image_paths',
     ];
 
     /**

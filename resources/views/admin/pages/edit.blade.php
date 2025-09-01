@@ -71,6 +71,85 @@
                 </div>
             </div>
         @endif
+
+        {{-- Homepage Settings --}}
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="mb-0">Homepage Settings (Optional)</h5>
+            </div>
+            <div class="card-body">
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="is_homepage" name="is_homepage" value="1" {{ old('is_homepage', $page->is_homepage) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="is_homepage">Set as Homepage</label>
+                    @error('is_homepage')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="slider_text" class="form-label">Homepage Slider Text</label>
+                    <textarea class="form-control" id="slider_text" name="slider_text" rows="3">{{ old('slider_text', $page->slider_text) }}</textarea>
+                    @error('slider_text')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="slider_image" class="form-label">Homepage Slider Image</label>
+                    <input type="file" class="form-control" id="slider_image" name="slider_image" accept="image/*">
+                    @error('slider_image')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    @if ($page->slider_image_path)
+                        <div class="mt-2">
+                            <img src="{{ Str::startsWith($page->slider_image_path, 'http') ? $page->slider_image_path : asset('storage/' . $page->slider_image_path) }}" alt="Slider Image" style="max-width: 150px; height: auto;">
+                            <div class="form-check mt-1">
+                                <input class="form-check-input" type="checkbox" name="delete_slider_image" value="1" id="delete_slider_image">
+                                <label class="form-check-label" for="delete_slider_image">Delete Current Slider Image</label>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="mb-3">
+                    <label for="main_paragraph_content" class="form-label">Homepage Main Paragraph Content</label>
+                    <textarea class="form-control" id="main_paragraph_content" name="main_paragraph_content" rows="5">{{ old('main_paragraph_content', $page->main_paragraph_content) }}</textarea>
+                    @error('main_paragraph_content')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="extr-images" class="form-label">Homepage Extra Images</label>
+                    <input type="file" class="form-control" id="extr-images" name="extr-images[]" multiple accept="image/*">
+                    @error('extr-images.*')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    @if ($page->{'extr-image_paths'})
+                        @php
+                            $extraImages = json_decode($page->{'extr-image_paths'}, true);
+                        @endphp
+                        @if(!empty($extraImages))
+                            <div class="mt-2">
+                                <label class="form-label">Current Extra Images:</label>
+                                <div class="row">
+                                    @foreach ($extraImages as $extrImagePath)
+                                        <div class="col-md-3 mb-2">
+                                            <img src="{{ Str::startsWith($extrImagePath, 'http') ? $extrImagePath : asset('storage/' . $extrImagePath) }}" alt="Extra Image" class="img-thumbnail">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="delete_extr_images[]" value="{{ $extrImagePath }}" id="deleteExtrImage{{ $loop->index }}">
+                                                <label class="form-check-label" for="deleteExtrImage{{ $loop->index }}">Delete</label>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                </div>
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-success">Update Page</button>
         <a href="{{ route('admin.pages.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
