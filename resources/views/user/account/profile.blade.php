@@ -53,6 +53,10 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                       @enderror
                     </div>
+                    <div class="col-lg-12">
+                      <label class="form-label" for="social-clicks">Social Media Clicks</label>
+                      <input class="form-control" id="social-clicks" type="text" value="{{ auth()->user()->social_clicks_count ?? 0 }}" readonly>
+                    </div>
                     <div class="col-12 d-flex justify-content-end"><button class="btn btn-primary" type="submit">Update </button></div>
                   </form>
                 </div>

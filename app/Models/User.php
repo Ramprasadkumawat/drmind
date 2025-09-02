@@ -25,6 +25,7 @@ class User extends Authenticatable
         'password',
         'referral_code',
         'referral_by',
+        'social_clicks_count',
     ];
 
     /**

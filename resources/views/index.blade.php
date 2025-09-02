@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}"> {{-- CSRF Token for AJAX requests --}}
   <title>Dr Mind{{ isset($title) ? '-'.$title : '' }}</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -75,9 +76,9 @@ s0.parentNode.insertBefore(s1,s0);
           <li class="nav-item">
             <a class="nav-link text-light" href="{{ route('user.view.subscription') }}">Life Education</a>
           </li>
-           {{-- <li class="nav-item">
+            <li class="nav-item">
             <a class="nav-link text-light" href="{{ route('home.broadcast')}}">Broadcast</a>
-          </li> --}}
+          </li> 
           <li class="nav-item">
             <a class="nav-link text-light" href="{{ route('home.blogs')}}">News & Inspiration</a>
           </li>
@@ -223,6 +224,37 @@ s0.parentNode.insertBefore(s1,s0);
           }
         })
       });
+
+      // Social Media Click Tracking
+      document.addEventListener('DOMContentLoaded', function () {
+        const socialMediaButtons = document.querySelectorAll('.d-flex.gap-2.mt-2 a');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        socialMediaButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                // Only track if a user is logged in (handled by @auth in broadcast.blade.php)
+                // and if the link is not a javascript:void(0) placeholder
+                if (this.href && !this.href.startsWith('javascript')) {
+                    fetch('/api/track-social-click', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ clicked_url: this.href })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Social click tracked:', data.message);
+                    })
+                    .catch(error => {
+                        console.error('Error tracking social click:', error);
+                    });
+                }
+            });
+        });
+    });
     </script>
 </body>
 

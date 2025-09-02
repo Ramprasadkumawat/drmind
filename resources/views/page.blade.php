@@ -4,24 +4,13 @@
 <div class="container mt-5">
     <h1 class="mb-4">{{ $page->name }}</h1>
 
-    @if($page->slider_content)
-        <div class="card mb-4">
-            <div class="card-header">
-                Slider Content
-            </div>
-            <div class="card-body">
-                {!! $page->slider_content !!}
-            </div>
-        </div>
-    @endif
-
-    @if($page->paragraph_content)
+    @if($page->content)
         <div class="card mb-4">
             <div class="card-header">
                 Page Content
             </div>
             <div class="card-body">
-                {!! $page->paragraph_content !!}
+                {!! $page->content !!}
             </div>
         </div>
     @endif

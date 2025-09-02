@@ -31,16 +31,18 @@
             
               <small class="text-dark opacity-50">@php echo $product->message @endphp </small>
             </div>
-            </a>
-            @php
+            </a> {{-- Correctly closes the main product link --}}
+
+            @php {{-- Moved @php block outside the <a> tag --}}
               $broadcastUrl = route('broadcast.show', $product->id);
               $shareText = $product->title . ' - ' . $product->message;
-          @endphp
+            @endphp
 
+@auth {{-- Start: Only show social media icons if user is logged in --}}
           <div class="d-flex gap-2 mt-2"> <!-- Buttons line mein laane ke liye -->
     {{-- Facebook Share --}}
     <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($broadcastUrl) }}"
-        target="_blank" class="btn btn-primary d-flex align-items-center justify-content-center" title="Share on Facebook">
+    target="_blank" class="btn btn-primary d-flex align-items-center justify-content-center" title="Share on Facebook">
         <i class="fab fa-facebook-f"></i>
     </a>
 
@@ -71,8 +73,9 @@
         <a href="https://www.youtube.com/" target="_blank" class="btn btn-danger d-flex align-items-center justify-content-center" title="Share on YouTube" style="background-color: #FF0000; border-color: #FF0000;">
       <i class="fab fa-youtube"></i>
         </a>
-    </a>
+    
 </div>
+@endauth {{-- End: Only show social media icons if user is logged in --}}
           </div>
           @endforeach
       
