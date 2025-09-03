@@ -34,8 +34,7 @@ class PageSeeder extends Seeder
             'category_id' => $homepageCategory->id,
             'name' => 'Dynamic Home Page',
             'slug' => 'dynamic-home-page',
-            'slider_content' => $faker->paragraph(3),
-            'paragraph_content' => $faker->paragraphs(5, true),
+            'content' => $faker->paragraph(3) . "\n\n" . $faker->paragraphs(5, true),
             'image_paths' => json_encode([
                 'https://picsum.photos/seed/homepage-section-1/800/400',
                 'https://picsum.photos/seed/homepage-section-2/800/400',
@@ -58,8 +57,7 @@ class PageSeeder extends Seeder
                     'category_id' => $category->id,
                     'name' => $pageName,
                     'slug' => Str::slug($pageName . '-' . Str::random(5)),
-                    'slider_content' => $faker->paragraph(3),
-                    'paragraph_content' => $faker->paragraphs(5, true),
+                    'content' => $faker->paragraph(3) . "\n\n" . $faker->paragraphs(5, true),
                     'image_paths' => json_encode([
                         'https://picsum.photos/seed/page-image-' . rand(1, 3) . '/800/400',
                         'https://picsum.photos/seed/page-image-' . rand(4, 6) . '/800/400',
