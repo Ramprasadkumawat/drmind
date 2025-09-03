@@ -116,7 +116,7 @@ s0.parentNode.insertBefore(s1,s0);
                 <!-- Add more account-related links here if needed -->
               </ul>
             @else
-              <a class="nav-link text-light" href="{{ url('login') }}">Sign In/Sign Up</a>
+              <a class="nav-link text-light" href="{{ url('user-login') }}">Sign In/Sign Up</a>
             @endif
           </li>
         </ul>

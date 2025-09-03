@@ -1,10 +1,6 @@
 @extends('admin.layout.template')
 
 @section('content')
-@push('styles')
-    <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css" rel="stylesheet">
-@endpush
 <div class="container">
     <h1>Create New Page</h1>
     <form action="{{ route('admin.pages.store') }}" method="POST" enctype="multipart/form-data">
@@ -36,9 +32,8 @@
             @enderror
         </div>
         <div class="mb-3">
-            <label for="editor" class="form-label">Page Content</label>
-            <div id="gjs"></div>
-            <input type="hidden" name="content" id="grapesjs-output">
+            <label for="content" class="form-label">Page Content</label>
+            <textarea class="form-control" id="content" name="content" rows="10">{{ old('content') }}</textarea>
             @error('content')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -103,37 +98,4 @@
         <a href="{{ route('admin.pages.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
-
-@push('scripts')
-    <script src="https://unpkg.com/grapesjs"></script>
-    <script src="https://unpkg.com/grapesjs-preset-webpage"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const editor = grapesjs.init({
-                container: '#gjs',
-                fromElement: true,
-                width: 'auto',
-                storageManager: false, // We will handle saving manually
-                plugins: ['gjs-preset-webpage'],
-                pluginsOpts: {
-                    'gjs-preset-webpage': {
-                        modalTitle: 'Select Image',
-                        previewOpts: {
-                            default: {
-                                scripts: [
-                                    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js'
-                                ]
-                            }
-                        }
-                    }
-                }
-            });
-
-            const form = document.querySelector('form');
-            form.addEventListener('submit', function() {
-                document.getElementById('grapesjs-output').value = editor.getHtml() + '<style>' + editor.getCss() + '</style>';
-            });
-        });
-    </script>
-@endpush
 @endsection

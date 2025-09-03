@@ -2,7 +2,7 @@
 @section('content')
 
 @if(isset($homepage) && $homepage->content)
-<div class="section grapesjs-rendered-content">
+<div class="section">
     <div class="container">
         {!! $homepage->content !!}
     </div>

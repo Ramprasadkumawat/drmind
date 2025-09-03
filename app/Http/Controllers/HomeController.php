@@ -73,6 +73,11 @@ class HomeController extends Controller
         return redirect('/login')->with('success', 'Account created successfully!');
         
    }
+   function login()
+   {
+       $title = "Login";
+       return view('userLogin', compact('title'));
+   }
    function about()
    {
        $title = "About Us";
