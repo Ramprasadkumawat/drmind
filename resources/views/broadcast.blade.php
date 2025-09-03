@@ -13,6 +13,10 @@
         </div>
       
            @foreach($broadcast as $product)
+           @php
+           $broadcastUrl = route('broadcast.show', $product->id);
+           $shareText = $product->title . ' - ' . $product->message;
+         @endphp
           <div class="col-sm-6	col-md-4	col-lg-4	col-xl-4 mt-4	col-xxl-4 d-flex flex-column Product-card gap-3 pb-4">
             <a href="javascript:;" class="text-decoration-none text-dark">
                  
@@ -29,16 +33,15 @@
             <h5 class="text-dark">{{ $product->title }} </h5>
             <div>
             
-              <small class="text-dark opacity-50">@php echo $product->message @endphp </small>
+              <small class="text-dark opacity-50">{!! $product->message !!}</small>
             </div>
             </a> {{-- Correctly closes the main product link --}}
 
-            @php {{-- Moved @php block outside the <a> tag --}}
-              $broadcastUrl = route('broadcast.show', $product->id);
-              $shareText = $product->title . ' - ' . $product->message;
-            @endphp
+            {{-- Moved @php block outside the a tag --}}
+            
 
-@auth {{-- Start: Only show social media icons if user is logged in --}}
+{{-- Start: Only show social media icons if user is logged in --}}
+@auth
           <div class="d-flex gap-2 mt-2"> <!-- Buttons line mein laane ke liye -->
     {{-- Facebook Share --}}
     <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($broadcastUrl) }}"
@@ -75,7 +78,8 @@
         </a>
     
 </div>
-@endauth {{-- End: Only show social media icons if user is logged in --}}
+{{-- End: Only show social media icons if user is logged in --}}
+@endauth
           </div>
           @endforeach
       
