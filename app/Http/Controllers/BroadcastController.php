@@ -12,8 +12,10 @@ class BroadcastController extends Controller
     function index()
     {
         $heading = "Broadcast";
-        $broadcasts = Broadcast::all();
-        return view('admin.broadcast.create_broadcast', compact('heading','broadcasts'));
+        $broadcasts = Broadcast::with('user')->whereHas('user', function ($query) {
+            $query->where('is_admin', 0);
+        })->get();
+        return view('admin.broadcast.index_broadcast', compact('heading','broadcasts'));
     }
     function store(Request $request)
     {

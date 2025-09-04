@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\Order;
-use App\Models\UserSubscription as Subscription;
 use Auth;
 
 class DashboardController extends Controller
@@ -30,8 +28,12 @@ class DashboardController extends Controller
         // Total referrals (2-level)
         $totalTwoLevelReferralCount = $levelOneCount + $levelTwoCount;
 
-        $allOrder = Order::where('user_id',$user->id)->count();
-        $allSubscription = Subscription::where('user_id',$user->id)->count();
+        $platforms = ['facebook', 'instagram', 'wechat', 'whatsapp', 'tiktok', 'youtube'];
+        $totalClicks = [];
+
+        foreach ($platforms as $platform) {
+            $totalClicks[$platform] = $user->broadcasts()->sum("{$platform}_count");
+        }
         
         $data = [
         'earning_point' => $earningPoint,
@@ -39,8 +41,7 @@ class DashboardController extends Controller
         'direct_referrals' => $levelOneCount,
         'second_level_referrals' => $levelTwoCount,
         'total_two_level_referrals' => $totalTwoLevelReferralCount,
-        'orders' => $allOrder,
-        'subscription'=>$allSubscription,
+        'total_clicks' => $totalClicks,
         'my_code'=>$myReferralCode,
         'title' => "Dashboard"
         ];
@@ -50,7 +51,16 @@ class DashboardController extends Controller
     function profile()
     {
         $title = "User Profile";
-        return view('user.account.profile', compact('title'));
+        $user = Auth::user();
+
+        $platforms = ['facebook', 'instagram', 'wechat', 'whatsapp', 'tiktok', 'youtube'];
+        $totalClicks = [];
+
+        foreach ($platforms as $platform) {
+            $totalClicks[$platform] = $user->broadcasts()->sum("{$platform}_count");
+        }
+
+        return view('user.account.profile', compact('title', 'totalClicks'));
     }
     function profileUpdate(Request $request)
     { 

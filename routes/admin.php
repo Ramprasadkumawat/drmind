@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ProductSubscription;
 use App\Http\Controllers\Admin\PageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authentication;
+use App\Http\Controllers\Admin\BroadcastAnalyticsController;
 
 Route::middleware(['auth', 'is_admin'])->group(function () {
 
@@ -96,4 +97,6 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/blogs-list',[BlogController::class,'list'])->name('blogs-list');
     Route::get('/blog-create',[BlogController::class,'createPage'])->name('blog-create');
     Route::post('blog.store',[BlogController::class,'store'])->name('blog.store');
+
+    Route::get('/broadcast-analytics', [BroadcastAnalyticsController::class, 'index'])->name('admin.broadcast.analytics');
 });

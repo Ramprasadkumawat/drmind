@@ -29,8 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/user-dashboard', [DashboardController::class, 'index'])->name('user-dashboard');
     Route::get('/userProfile', [DashboardController::class, 'profile'])->name('user.profile');
     Route::post('/userProfile', [DashboardController::class, 'profileUpdate'])->name('user.profile.update');
-    Route::get('/userSettings', [DashboardController::class, 'settings'])->name('user.setting');
-    Route::post('/userSettings', [DashboardController::class, 'settingsUpdate'])->name('user.setting');
+    Route::get('/userSettings', [DashboardController::class, 'settings'])->name('user.setting.show');
+    Route::post('/userSettings', [DashboardController::class, 'settingsUpdate'])->name('user.setting.update');
     Route::get('/userLogout', [Authentication::class, 'logout'])->name('user.logout');
     Route::post('/addToCart', [CartController::class, 'addToCart'])->name('user.addToCart');
     Route::get('/cartProducts', [CartController::class, 'cartProducts'])->name('cart.show');
@@ -73,3 +73,5 @@ Route::get('/product/{slug}', [ProductsController::class, 'productDetails'])->na
 Route::get('subscription/{slug}', [ProductsController::class, 'subscriptionDetails'])->name('products.subscriptionDetails');
 //Route::stripeWebhooks('/stripe/webhook');
 Route::get('/category/{slug}', [ProductsController::class, 'productsByCategory'])->name('products.by.category');
+
+Route::post('/track-social-click', [Admin\BroadcastAnalyticsController::class, 'trackClick'])->middleware('auth');

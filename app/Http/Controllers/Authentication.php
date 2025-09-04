@@ -30,6 +30,7 @@ function login(Request $request){
        }
        return back()->with('error', 'Invalid email or password.');
 }
+
      public function UserLogin(Request $request)
      {
      // Debug session at start

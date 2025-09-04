@@ -54,8 +54,15 @@
                       @enderror
                     </div>
                     <div class="col-lg-12">
-                      <label class="form-label" for="social-clicks">Social Media Clicks</label>
-                      <input class="form-control" id="social-clicks" type="text" value="{{ auth()->user()->social_clicks_count ?? 0 }}" readonly>
+                        <h6 class="mt-2 fw-bold">Social Media Clicks</h6>
+                        <div class="row">
+                            @foreach($totalClicks as $platform => $count)
+                                <div class="col-sm-6">
+                                    <label class="form-label text-capitalize">{{ $platform }}</label>
+                                    <input class="form-control" type="text" value="{{ $count }}" readonly>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                     <div class="col-12 d-flex justify-content-end"><button class="btn btn-primary" type="submit">Update </button></div>
                   </form>

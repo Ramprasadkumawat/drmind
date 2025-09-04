@@ -13,11 +13,17 @@ return new class extends Migration
     {
         Schema::create('broadcast', function (Blueprint $table) {
             $table->id();
-            $table->text('message');
-            $table->string('title');
             $table->unsignedBigInteger('user_id');
-            $table->string('image')->nullable(); // optional thumbnail or cover image
-            $table->string('slug')->unique(); // for shareable URLs
+            $table->string('title');
+            $table->text('message');
+            $table->string('image')->nullable();
+            $table->string('slug')->unique();
+            $table->integer('facebook_count')->default(0);
+            $table->integer('instagram_count')->default(0);
+            $table->integer('wechat_count')->default(0);
+            $table->integer('whatsapp_count')->default(0);
+            $table->integer('tiktok_count')->default(0);
+            $table->integer('youtube_count')->default(0);
             $table->timestamps();
             $table->softDeletes();
 

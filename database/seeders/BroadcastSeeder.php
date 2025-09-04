@@ -37,6 +37,12 @@ class BroadcastSeeder extends Seeder
                     'slug' => Str::slug($title . '-' . Str::random(5)),
                     'message' => $faker->paragraphs(3, true),
                     'image' => 'broadcasts/broadcast-' . rand(1, 5) . '.jpg',
+                    'facebook_count' => $faker->numberBetween(0, 100),
+                    'instagram_count' => $faker->numberBetween(0, 100),
+                    'wechat_count' => $faker->numberBetween(0, 100),
+                    'whatsapp_count' => $faker->numberBetween(0, 100),
+                    'tiktok_count' => $faker->numberBetween(0, 100),
+                    'youtube_count' => $faker->numberBetween(0, 100),
                 ]);
             }
         }

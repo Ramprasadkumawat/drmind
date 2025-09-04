@@ -45,35 +45,35 @@
           <div class="d-flex gap-2 mt-2"> <!-- Buttons line mein laane ke liye -->
     {{-- Facebook Share --}}
     <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($broadcastUrl) }}"
-    target="_blank" class="btn btn-primary d-flex align-items-center justify-content-center" title="Share on Facebook">
+    target="_blank" class="btn btn-primary d-flex align-items-center justify-content-center social-share-link" title="Share on Facebook" data-platform="facebook" data-broadcast-id="{{ $product->id }}">
         <i class="fab fa-facebook-f"></i>
     </a>
 
     {{-- X (Twitter) Share --}}
     {{-- WeChat (Note: WeChat does not provide a direct web share URL, so this is just an icon for display) --}}
-    <a href="javascript:void(0);" class="btn btn-success d-flex align-items-center justify-content-center" title="Share on WeChat" style="background-color: #7bb32e; border-color: #7bb32e;">
+    <a href="javascript:void(0);" class="btn btn-success d-flex align-items-center justify-content-center social-share-link" title="Share on WeChat" style="background-color: #7bb32e; border-color: #7bb32e;" data-platform="wechat" data-broadcast-id="{{ $product->id }}">
       <i class="fab fa-weixin"></i>
     </a>
 
     {{-- Instagram (Instagram does not support direct web sharing, so this is just an icon for display) --}}
-    <a href="https://www.instagram.com/" target="_blank" class="btn btn-danger d-flex align-items-center justify-content-center" title="Share on Instagram" style="background-color: #E1306C; border-color: #E1306C;">
+    <a href="https://www.instagram.com/" target="_blank" class="btn btn-danger d-flex align-items-center justify-content-center social-share-link" title="Share on Instagram" style="background-color: #E1306C; border-color: #E1306C;" data-platform="instagram" data-broadcast-id="{{ $product->id }}">
       <i class="fab fa-instagram"></i>
     </a>
 
 
     {{-- WhatsApp Share --}}
     <a href="https://wa.me/?text={{ urlencode($shareText . ' ' . $broadcastUrl) }}"
-      target="_blank" class="btn btn-success d-flex align-items-center justify-content-center" title="Share on WhatsApp" style="background-color: #25D366; border-color: #25D366;">
+      target="_blank" class="btn btn-success d-flex align-items-center justify-content-center social-share-link" title="Share on WhatsApp" style="background-color: #25D366; border-color: #25D366;" data-platform="whatsapp" data-broadcast-id="{{ $product->id }}">
       <i class="fab fa-whatsapp"></i>
         </a>
 
         {{-- TikTok (TikTok does not support direct web sharing, so this is just an icon for display) --}}
-        <a href="https://www.tiktok.com/" target="_blank" class="btn btn-dark d-flex align-items-center justify-content-center" title="Share on TikTok" style="background-color: #010101; border-color: #010101;">
+        <a href="https://www.tiktok.com/" target="_blank" class="btn btn-dark d-flex align-items-center justify-content-center social-share-link" title="Share on TikTok" style="background-color: #010101; border-color: #010101;" data-platform="tiktok" data-broadcast-id="{{ $product->id }}">
       <i class="fab fa-tiktok"></i>
         </a>
 
         {{-- YouTube (YouTube does not support direct web sharing, so this is just an icon for display) --}}
-        <a href="https://www.youtube.com/" target="_blank" class="btn btn-danger d-flex align-items-center justify-content-center" title="Share on YouTube" style="background-color: #FF0000; border-color: #FF0000;">
+        <a href="https://www.youtube.com/" target="_blank" class="btn btn-danger d-flex align-items-center justify-content-center social-share-link" title="Share on YouTube" style="background-color: #FF0000; border-color: #FF0000;" data-platform="youtube" data-broadcast-id="{{ $product->id }}">
       <i class="fab fa-youtube"></i>
         </a>
     
@@ -90,3 +90,28 @@
   @endif
 </div>
 @endsection
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.social-share-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            const platform = this.dataset.platform;
+            const broadcastId = this.dataset.broadcastId;
+            if (platform && broadcastId) {
+                fetch('/track-social-click', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ platform: platform, broadcast_id: broadcastId })
+                })
+                .then(response => response.json())
+                .then(data => console.log('Click tracked:', data))
+                .catch((error) => console.error('Error:', error));
+            }
+        });
+    });
+});
+</script>
+@endpush

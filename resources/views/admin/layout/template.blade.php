@@ -413,7 +413,11 @@
                                             class="nav-link-text ps-1">Broadcasts</span></div>
                                 </a>
 
-
+                                <a class="nav-link" href="{{ url('admin.broadcast.analytics') }}" role="button">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                class="fas fa-chart-line"></span></span><span
+                                            class="nav-link-text ps-1">Broadcast Analytics</span></div>
+                                </a>
 
                             </li>
 
