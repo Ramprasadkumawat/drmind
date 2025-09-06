@@ -130,33 +130,38 @@
                                 <!-- label-->
 
                                 <!-- parent pages-->
-                                <a class="nav-link dropdown-indicator" href="#dr" role="button"
-                                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="dr">
+                                <a class="nav-link dropdown-indicator" href="#users-management" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="users-management">
                                     <div class="d-flex align-items-center">
-                                        <span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span
-                                            class="nav-link-text ps-1">Users</span>
+                                        <span class="nav-link-icon"><span class="fas fa-users"></span></span><span class="nav-link-text ps-1">Users</span>
                                     </div>
                                 </a>
-                                <ul class="nav collapse" id="dr">
+                                <ul class="nav collapse" id="users-management">
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ url('admin/users-list') }}">
-                                            <div class="d-flex align-items-center"><span
-                                                    class="nav-link-text ps-1">Users List</span></div>
+                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Users List</span></div>
                                         </a>
-                                        <!-- more inner pages-->
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.users.level_view') }}">
+                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">User Levels</span></div>
+                                        </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ url('admin/referral-tree') }}">
-                                            <div class="d-flex align-items-center"><span
-                                                    class="nav-link-text ps-1">View Level</span></div>
+                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Referral Tree</span></div>
                                         </a>
-                                        <!-- more inner pages-->
                                     </li>
-
-
-
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.level_members.list') }}">
+                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Level Members List</span></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.level_members.tree') }}">
+                                            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Level Members Tree</span></div>
+                                        </a>
+                                    </li>
                                 </ul>
-
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link dropdown-indicator" href="#ecommerce" role="button"

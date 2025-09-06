@@ -75,7 +75,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/user-referral/{referral_code}', [UsersController::class, 'getHierarchy']);
     Route::get('referral-tree', [UsersController::class, 'tree']);
 
-    Route::get('userslevel-list/{referral_code?}', [UsersController::class, 'getHierarchy'])->name('users.level_view');
+    Route::get('view-level/{referral_code?}', [UsersController::class, 'getHierarchy'])->name('users.level_view');
 
     Route::get('mngt-report', function () {
         $heading="MNGT Report";
@@ -96,8 +96,8 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/blog-create',[BlogController::class,'createPage'])->name('blog-create');
     Route::post('blog.store',[BlogController::class,'store'])->name('blog.store');
 
-    Route::get('/broadcast-analytics', [BroadcastAnalyticsController::class, 'index'])->name('admin.broadcast.analytics');
+    Route::get('/broadcast-analytics', [BroadcastAnalyticsController::class, 'index'])->name('broadcast.analytics');
     
-    Route::get('/my-test-level-members-url', [LevelMemberController::class, 'index'])->name('admin.user.level_members');
-    Route::get('/level-members/tree', [LevelMemberController::class, 'showTree'])->name('admin.user.tree_view');
+    Route::get('/level-members/list', [LevelMemberController::class, 'index'])->name('level_members.list');
+    Route::get('/level-members/tree', [LevelMemberController::class, 'showTree'])->name('level_members.tree');
 });
