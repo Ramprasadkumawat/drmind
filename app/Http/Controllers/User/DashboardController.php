@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\UserSubscription as Subscription;
 use Auth;
 
 class DashboardController extends Controller
@@ -35,15 +36,18 @@ class DashboardController extends Controller
             $totalClicks[$platform] = $user->broadcasts()->sum("{$platform}_count");
         }
         
+        $allSubscription = Subscription::where('user_id',$user->id)->count();
+        
         $data = [
-        'earning_point' => $earningPoint,
-        'level_point'   => $levelPoint,
-        'direct_referrals' => $levelOneCount,
-        'second_level_referrals' => $levelTwoCount,
-        'total_two_level_referrals' => $totalTwoLevelReferralCount,
-        'total_clicks' => $totalClicks,
-        'my_code'=>$myReferralCode,
-        'title' => "Dashboard"
+            'earning_point' => $earningPoint,
+            'level_point'   => $levelPoint,
+            'direct_referrals' => $levelOneCount,
+            'second_level_referrals' => $levelTwoCount,
+            'total_two_level_referrals' => $totalTwoLevelReferralCount,
+            'total_clicks' => $totalClicks,
+            'subscription'=>$allSubscription,
+            'my_code'=>$myReferralCode,
+            'title' => "Dashboard"
         ];
 
         return view('user.dashboard.index', $data);

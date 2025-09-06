@@ -39,6 +39,33 @@
             </div>
         </div>
         @endforeach
+        <div class="col-sm-6 col-md-6">
+            <div class="card overflow-hidden" style="min-width: 12rem">
+                <div class="bg-holder bg-card"
+                    style="background-image:url({{ asset('assets/img/icons/spot-illustrations/corner-2.png') }});">
+                </div>
+                <!--/.bg-holder-->
+                <div class="card-body position-relative">
+                    <h6>2nd Level Referrals</h6>
+                    <div class="display-4 fs-5 mb-2 fw-normal font-sans-serif text-info"
+                        data-countup='{"endValue":{{ $second_level_referrals }}}'>{{ $second_level_referrals }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <div class="card overflow-hidden" style="min-width: 12rem">
+                <div class="bg-holder bg-card"
+                    style="background-image:url({{ asset('assets/img/icons/spot-illustrations/corner-3.png') }});">
+                </div>
+                <!--/.bg-holder-->
+                <div class="card-body position-relative">
+                    <h6>Total Referrals</h6>
+                    <div class="display-4 fs-5 mb-2 fw-normal font-sans-serif"
+                        data-countup='{"endValue":{{ $total_two_level_referrals }}}'>
+                        {{ $total_two_level_referrals }}</div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-8">
             <div class="card">
                 @php
