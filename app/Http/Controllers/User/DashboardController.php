@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\Order;
 use App\Models\UserSubscription as Subscription;
 use Auth;
 
@@ -30,7 +29,6 @@ class DashboardController extends Controller
         // Total referrals (2-level)
         $totalTwoLevelReferralCount = $levelOneCount + $levelTwoCount;
 
-        $allOrder = Order::where('user_id',$user->id)->count();
         $allSubscription = Subscription::where('user_id',$user->id)->count();
         
         $data = [
@@ -39,7 +37,6 @@ class DashboardController extends Controller
         'direct_referrals' => $levelOneCount,
         'second_level_referrals' => $levelTwoCount,
         'total_two_level_referrals' => $totalTwoLevelReferralCount,
-        'orders' => $allOrder,
         'subscription'=>$allSubscription,
         'my_code'=>$myReferralCode,
         'title' => "Dashboard"
