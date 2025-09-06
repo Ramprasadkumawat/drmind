@@ -9,15 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Broadcast extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = [
-        'message',
-        'image',
-        'title',
-        'slug',
-        'user_id',
-        'extension'
-    ];
     protected $table = 'broadcast';
+    protected $guarded = [];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     protected static function boot()
     {

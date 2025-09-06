@@ -57,23 +57,25 @@ ul.tree li:last-child::before {
             <h5 class="mb-3">
                 👤 {{ $rootUser->name }} ({{ $rootUser->email }})
             </h5>
-            <p><strong>Referral Code:</strong> {{ $rootUser->referral_code }}</p>
+            <p><strong>Referral Code:</strong> <?php echo e($rootUser->referral_code); ?></p>
 
             <ul class="tree">
-                @php
-                function renderReferralTree($grouped, $referralCode, $level = 1) {
-                    if ($level > 3 || !isset($grouped[$referralCode])) return;
+                <?php
+                if (!function_exists('renderReferralTree')) {
+                    function renderReferralTree($grouped, $referralCode, $level = 1) {
+                        if ($level > 3 || !isset($grouped[$referralCode])) return;
 
-                    echo '<ul>';
-                    foreach ($grouped[$referralCode] as $user) {
-                        echo '<li>';
-                        echo '<span>👤 ' . $user->name . ' <small>(' . $user->email . ')</small></span>';
-                        renderReferralTree($grouped, $user->referral_code, $level + 1);
-                        echo '</li>';
+                        echo '<ul>';
+                        foreach ($grouped[$referralCode] as $user) {
+                            echo '<li>';
+                            echo '<span>👤 ' . $user->name . ' <small>(' . $user->email . ')</small></span>';
+                            renderReferralTree($grouped, $user->referral_code, $level + 1);
+                            echo '</li>';
+                        }
+                        echo '</ul>';
                     }
-                    echo '</ul>';
                 }
-                @endphp
+                ?>
 
                 <li>
                     <span>👤 {{ $rootUser->name }} <small>({{ $rootUser->email }})</small></span>

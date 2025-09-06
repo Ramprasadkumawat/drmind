@@ -47,4 +47,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function level1Referrals()
+    {
+        return $this->hasMany(User::class, 'referral_by', 'referral_code');
+    }
 }

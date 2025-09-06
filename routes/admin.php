@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ProductSubscription;
 use App\Http\Controllers\Admin\PageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authentication;
+use App\Http\Controllers\User\LevelMemberController;
 
 Route::middleware(['auth', 'is_admin'])->group(function () {
 
@@ -73,10 +74,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/user-referral/{referral_code}', [UsersController::class, 'getHierarchy']);
     Route::get('referral-tree', [UsersController::class, 'tree']);
 
-    Route::get('view-level', function () {
-        $heading="Users Level";
-        return view('admin.users.view_level',compact('heading'));
-    });
+    Route::get('userslevel-list/{referral_code?}', [UsersController::class, 'getHierarchy'])->name('users.level_view');
 
     Route::get('mngt-report', function () {
         $heading="MNGT Report";
@@ -96,4 +94,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/blogs-list',[BlogController::class,'list'])->name('blogs-list');
     Route::get('/blog-create',[BlogController::class,'createPage'])->name('blog-create');
     Route::post('blog.store',[BlogController::class,'store'])->name('blog.store');
+
+    Route::get('/userslevel-list2', [LevelMemberController::class, 'index'])->name('admin.user.level_members');
+    Route::get('/level-members/tree', [LevelMemberController::class, 'showTree'])->name('admin.user.tree_view');
 });
