@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SubscriptionHistoryController;
 use App\Http\Controllers\BroadcastController;
+use App\Http\Controllers\User\LevelMemberController;
 
 Route::get('/',[HomeController::class, 'index'])->name('home.index');
 Route::get('/signup', [HomeController::class, 'signup'])->name('user.signup');
@@ -65,6 +66,9 @@ Route::middleware('auth')->group(function () {
     Route::get('user/broadcasts',[BroadcastController::class,'UserBroadcast']);
     Route::post('user/broadcast/store',[BroadcastController::class,'store'])->name('user.broadcast.store');
     
+    // level members 
+    Route::get('/my-test-level-members-url', [LevelMemberController::class, 'index'])->name('user.level_members');
+    Route::get('/level-members/tree', [LevelMemberController::class, 'showTree'])->name('user.tree_view');
 });
 Route::get('user/boradcast/sharing/{id}',[BroadcastController::class,'show'])->name('broadcast.show');
 

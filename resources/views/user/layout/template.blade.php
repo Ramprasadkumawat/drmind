@@ -135,7 +135,7 @@ s0.parentNode.insertBefore(s1,s0);
                           <!-- more inner pages-->
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link" href="{{ route('user.setting') }}">
+                          <a class="nav-link" href="{{ route('user.setting.show') }}">
                               <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Setting</span></div>
                           </a>
                           <!-- more inner pages-->
@@ -228,7 +228,7 @@ s0.parentNode.insertBefore(s1,s0);
                   <div class="bg-white dark__bg-1000 rounded-2 py-2">
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('user.profile') }}">Profile &amp; account</a>
-                    <a class="dropdown-item" href="{{ route('user.setting') }}">Settings</a>
+                    <a class="dropdown-item" href="{{ route('user.setting.show') }}">Settings</a>
                     <a class="dropdown-item" href="{{ route('user.logout') }}">Logout</a>
                   </div>
                 </div>

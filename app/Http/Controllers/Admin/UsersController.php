@@ -42,14 +42,21 @@ class UsersController extends Controller
         $heading="Users";
         return view('admin.users.users_list',compact('heading','users'));
     }
-    function getHierarchy($referral_code){
+    function getHierarchy($referral_code = null){
         $users = \App\Models\User::all();
         $grouped = $users->groupBy('referral_by');
     
         // Get root user
         $rootUser = $users->firstWhere('referral_code', $referral_code);
+
+        // If no user is found by referral code, or if no code was given, default to the first user.
+        if (!$rootUser) {
+            $rootUser = $users->first();
+        }
+
+        $heading="Users Level";
     
-        return view('admin.users.level_view', compact('grouped', 'rootUser'));
+        return view('admin.users.level_view', compact('grouped', 'rootUser','heading'));
     }
     function tree(){
         $users = \App\Models\User::all();
