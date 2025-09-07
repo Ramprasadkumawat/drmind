@@ -22,6 +22,7 @@ class Page extends Model
         'slider_image_path',
         'main_paragraph_content',
         'extr-image_paths',
+        'settings_order',
     ];
 
     /**
