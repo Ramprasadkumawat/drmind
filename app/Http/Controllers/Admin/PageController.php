@@ -46,6 +46,7 @@ class PageController extends Controller
             'slider_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'main_paragraph_content' => 'nullable|string',
             'extr-images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'settings_order' => 'nullable|json',
         ]);
 
         $slug = $request->input('slug') ? Str::slug($request->input('slug')) : Str::slug($request->input('name'));
@@ -88,6 +89,7 @@ class PageController extends Controller
             'slider_image_path' => $sliderImagePath,
             'main_paragraph_content' => $request->main_paragraph_content,
             'extr-image_paths' => json_encode($extraImagePaths),
+            'settings_order' => $request->settings_order,
         ]);
 
         return redirect()->route('admin.pages.index')->with('success', 'Page created successfully.');

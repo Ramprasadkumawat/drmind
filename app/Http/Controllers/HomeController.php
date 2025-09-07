@@ -139,7 +139,7 @@ class HomeController extends Controller
 
     public function showPage($slug)
     {
-        $page = Page::where('slug', $slug)->where('is_published', true)->firstOrFail();
+        $page = Page::with('category')->where('slug', $slug)->where('is_published', true)->firstOrFail();
         $title = $page->name;
         return view('page', compact('title', 'page'));
     }

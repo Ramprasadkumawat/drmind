@@ -105,96 +105,93 @@
                     </div>
                 </div>
             </div>
-
-            <div class="draggable-item" data-id="homepage-settings">
+            
+            <div class="draggable-item" data-id="slider">
                 <div class="card mb-3">
-                    <div class="card-header">
-                        <h5 class="mb-0">Homepage Settings (Optional)</h5>
-                    </div>
+                    <div class="card-header"><h6>Slider (Optional)</h6></div>
                     <div class="card-body">
-                        <div id="homepage-settings-container">
-                            <div class="homepage-setting-item card mb-3" data-id="slider">
-                                <div class="card-header">
-                                    <h6 class="mb-0">Slider</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <label for="slider_text" class="form-label">Homepage Slider Text</label>
-                                        <textarea class="form-control" id="slider_text" name="slider_text" rows="3">{{ old('slider_text', $page->slider_text) }}</textarea>
-                                        @error('slider_text')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="slider_image" class="form-label">Homepage Slider Image</label>
-                                        <input type="file" class="form-control" id="slider_image" name="slider_image" accept="image/*">
-                                        @error('slider_image')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                        @if ($page->slider_image_path)
-                                            <div class="mt-2">
-                                                <img src="{{ Str::startsWith($page->slider_image_path, 'http') ? $page->slider_image_path : asset('storage/' . $page->slider_image_path) }}" alt="Slider Image" style="max-width: 150px; height: auto;">
-                                                <div class="form-check mt-1">
-                                                    <input class="form-check-input" type="checkbox" name="delete_slider_image" value="1" id="delete_slider_image">
-                                                    <label class="form-check-label" for="delete_slider_image">Delete Current Slider Image</label>
-                                                </div>
-                                            </div>
-                                        @endif
+                        <div class="mb-3">
+                            <label for="slider_text" class="form-label">Slider Text</label>
+                            <textarea class="form-control" id="slider_text" name="slider_text" rows="3">{{ old('slider_text', $page->slider_text) }}</textarea>
+                            @error('slider_text')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="slider_image" class="form-label">Slider Image</label>
+                            <input type="file" class="form-control" id="slider_image" name="slider_image" accept="image/*">
+                            @error('slider_image')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                            @if ($page->slider_image_path)
+                                <div class="mt-2">
+                                    <img src="{{ Str::startsWith($page->slider_image_path, 'http') ? $page->slider_image_path : asset('storage/' . $page->slider_image_path) }}" alt="Slider Image" style="max-width: 150px; height: auto;">
+                                    <div class="form-check mt-1">
+                                        <input class="form-check-input" type="checkbox" name="delete_slider_image" value="1" id="delete_slider_image">
+                                        <label class="form-check-label" for="delete_slider_image">Delete Current Slider Image</label>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                            <div class="homepage-setting-item card mb-3" data-id="main_paragraph">
-                                <div class="card-header">
-                                    <h6 class="mb-0">Main Paragraph</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <label for="main_paragraph_content" class="form-label">Homepage Main Paragraph Content</label>
-                                        <textarea class="form-control" id="main_paragraph_content" name="main_paragraph_content" rows="5">{{ old('main_paragraph_content', $page->main_paragraph_content) }}</textarea>
-                                        @error('main_paragraph_content')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
+            <div class="draggable-item" data-id="main_paragraph">
+                <div class="card mb-3">
+                    <div class="card-header"><h6>Main Paragraph (Optional)</h6></div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="main_paragraph_content" class="form-label">Main Paragraph Content</label>
+                            <textarea class="form-control" id="main_paragraph_content" name="main_paragraph_content" rows="5">{{ old('main_paragraph_content', $page->main_paragraph_content) }}</textarea>
+                            @error('main_paragraph_content')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                            <div class="homepage-setting-item card mb-3" data-id="extra_images">
-                                <div class="card-header">
-                                    <h6 class="mb-0">Extra Images</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <label for="extr-images" class="form-label">Homepage Extra Images</label>
-                                        <input type="file" class="form-control" id="extr-images" name="extr-images[]" multiple accept="image/*">
-                                        @error('extr-images.*')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                        @if ($page->{'extr-image_paths'})
-                                            @php
-                                                $extraImages = json_decode($page->{'extr-image_paths'}, true);
-                                            @endphp
-                                            @if(!empty($extraImages))
-                                                <div class="mt-2">
-                                                    <label class="form-label">Current Extra Images:</label>
-                                                    <div class="row">
-                                                        @foreach ($extraImages as $extrImagePath)
-                                                            <div class="col-md-3 mb-2">
-                                                                <img src="{{ Str::startsWith($extrImagePath, 'http') ? $extrImagePath : asset('storage/' . $extrImagePath) }}" alt="Extra Image" class="img-thumbnail">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" name="delete_extr_images[]" value="{{ $extrImagePath }}" id="deleteExtrImage{{ $loop->index }}">
-                                                                    <label class="form-check-label" for="deleteExtrImage{{ $loop->index }}">Delete</label>
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
+            <div class="draggable-item" data-id="extra_images">
+                <div class="card mb-3">
+                    <div class="card-header"><h6>Extra Images (Optional)</h6></div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="extr-images" class="form-label">Extra Images</label>
+                            <input type="file" class="form-control" id="extr-images" name="extr-images[]" multiple accept="image/*">
+                            @error('extr-images.*')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                            @if ($page->{'extr-image_paths'})
+                                @php
+                                    $extraImages = json_decode($page->{'extr-image_paths'}, true);
+                                @endphp
+                                @if(!empty($extraImages))
+                                    <div class="mt-2">
+                                        <label class="form-label">Current Extra Images:</label>
+                                        <div class="row">
+                                            @foreach ($extraImages as $extrImagePath)
+                                                <div class="col-md-3 mb-2">
+                                                    <img src="{{ Str::startsWith($extrImagePath, 'http') ? $extrImagePath : asset('storage/' . $extrImagePath) }}" alt="Extra Image" class="img-thumbnail">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="delete_extr_images[]" value="{{ $extrImagePath }}" id="deleteExtrImage{{ $loop->index }}">
+                                                        <label class="form-check-label" for="deleteExtrImage{{ $loop->index }}">Delete</label>
                                                     </div>
                                                 </div>
-                                            @endif
-                                        @endif
+                                            @endforeach
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                @endif
+                            @endif
                         </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="draggable-item" data-id="page_settings">
+                <div class="card mb-3">
+                    <div class="card-header"><h6>Page Settings</h6></div>
+                    <div class="card-body">
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="is_homepage" name="is_homepage" value="1" {{ old('is_homepage', $page->is_homepage) ? 'checked' : '' }}>
                             <label class="form-check-label" for="is_homepage">Set as Homepage</label>
@@ -213,35 +210,67 @@
 </div>
 @endsection
 
+@push('styles')
+<style>
+    #draggable-form-fields .card-header {
+        cursor: move;
+    }
+</style>
+@endpush
+
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var el = document.getElementById('draggable-form-fields');
-        if (el) {
-            var sortable = Sortable.create(el, {
+        var container = document.getElementById('draggable-form-fields');
+        if (container) {
+            // Function to update the hidden input with the current order
+            function updateOrderInput() {
+                var order = [];
+                var items = container.querySelectorAll('.draggable-item');
+                items.forEach(function (item) {
+                    order.push(item.dataset.id);
+                });
+                document.getElementById('settings_order').value = JSON.stringify(order);
+            }
+
+            // Initialize SortableJS
+            var sortable = Sortable.create(container, {
                 animation: 150,
                 handle: '.card-header',
-                onEnd: function () {
-                    var order = [];
-                    var items = el.querySelectorAll('.draggable-item');
-                    items.forEach(function (item) {
-                        order.push(item.dataset.id);
-                    });
-                    document.getElementById('settings_order').value = JSON.stringify(order);
-                }
+                onEnd: updateOrderInput // Update the input whenever an item is dropped
             });
 
-            var initialOrder = {!! $page->settings_order ?? '[]' !!};
-            if (initialOrder.length > 0) {
-                var container = document.getElementById('draggable-form-fields');
-                initialOrder.forEach(function(id) {
-                    var item = container.querySelector('.draggable-item[data-id="' + id + '"]');
-                    if (item) {
-                        container.appendChild(item);
+            // Get the order saved in the database
+            var savedOrder = {!! $page->settings_order ?? '[]' !!};
+            // Get all possible draggable items from the page HTML
+            var allPossibleItems = Array.from(container.querySelectorAll('.draggable-item')).map(item => item.dataset.id);
+
+            // Create a new, complete order. Start with the saved order,
+            // then append any new items that have been added to the form since the last save.
+            var newOrder = [];
+            if (savedOrder.length > 0) {
+                newOrder = [...savedOrder];
+                allPossibleItems.forEach(id => {
+                    if (!newOrder.includes(id)) {
+                        newOrder.push(id); // Add new items to the end
                     }
                 });
+            } else {
+                newOrder = allPossibleItems;
             }
+
+            // Reorder the elements on the page to match the new, complete order
+            newOrder.forEach(function(id) {
+                var item = container.querySelector('.draggable-item[data-id="' + id + '"]');
+                if (item) {
+                    container.appendChild(item);
+                }
+            });
+            
+            // IMPORTANT: Set the initial value of the hidden input on page load.
+            // This fixes the bug where the order was being wiped on save.
+            updateOrderInput();
         }
     });
 </script>
