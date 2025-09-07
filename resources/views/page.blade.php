@@ -48,6 +48,11 @@
                     @if($page->category)
                         <div class="mb-3">
                             <strong>Category:</strong> {{ $page->category->name }}
+                             @if($page->category->image_path)
+                                <div class="mt-2">
+                                    <img src="{{ asset($page->category->image_path) }}" alt="{{ $page->category->name }}" class="img-fluid" style="max-width: 200px;">
+                                </div>
+                            @endif
                         </div>
                     @endif
                     @break
