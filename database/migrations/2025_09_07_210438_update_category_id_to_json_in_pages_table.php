@@ -12,9 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pages', function (Blueprint $table) {
-            $table->json('category_ids')->nullable()->after('category_id');
-        });
+        // Make the migration safer by checking if the column exists first
+        if (!Schema::hasColumn('pages', 'category_ids')) {
+            Schema::table('pages', function (Blueprint $table) {
+                $table->json('category_ids')->nullable()->after('category_id');
+            });
+        }
 
         // Data migration from old column to new column
         Page::whereNotNull('category_id')->each(function ($page) {
@@ -22,13 +25,15 @@ return new class extends Migration
             $page->save();
         });
 
-        Schema::table('pages', function (Blueprint $table) {
-            // STEP 1: Drop the foreign key constraint first!
-            $table->dropForeign(['category_id']);
+        if (Schema::hasColumn('pages', 'category_id')) {
+            Schema::table('pages', function (Blueprint $table) {
+                // Drop the foreign key constraint first
+                $table->dropForeign(['category_id']);
 
-            // STEP 2: Now you can safely drop the column
-            $table->dropColumn('category_id');
-        });
+                // Now safely drop the column
+                $table->dropColumn('category_id');
+            });
+        }
     }
 
     /**
@@ -36,12 +41,14 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pages', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id')->nullable()->after('category_ids');
+        if (!Schema::hasColumn('pages', 'category_id')) {
+            Schema::table('pages', function (Blueprint $table) {
+                $table->unsignedBigInteger('category_id')->nullable()->after('category_ids');
 
-            // Re-add the foreign key constraint if you roll back
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
-        });
+                // Re-add the foreign key constraint if you roll back
+                $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+            });
+        }
         
         // Optional: Data migration back to old column
         Page::whereNotNull('category_ids')->each(function ($page) {
@@ -51,8 +58,10 @@ return new class extends Migration
             }
         });
         
-        Schema::table('pages', function (Blueprint $table) {
-            $table->dropColumn('category_ids');
-        });
+        if (Schema::hasColumn('pages', 'category_ids')) {
+            Schema::table('pages', function (Blueprint $table) {
+                $table->dropColumn('category_ids');
+            });
+        }
     }
 };
