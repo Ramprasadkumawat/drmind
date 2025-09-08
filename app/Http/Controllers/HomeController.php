@@ -10,6 +10,7 @@ use App\Models\Broadcast;
 use App\Models\Testimonial;
 use App\Models\Blog;
 use App\Models\Page;
+use Illuminate\Support\Facades\Log;
 class HomeController extends Controller
 {
    function index()
@@ -139,7 +140,7 @@ class HomeController extends Controller
 
     public function showPage($slug)
     {
-        $page = Page::with('category')->where('slug', $slug)->where('is_published', true)->firstOrFail();
+        $page = Page::where('slug', $slug)->where('is_published', true)->firstOrFail();
         $title = $page->name;
         return view('page', compact('title', 'page'));
     }

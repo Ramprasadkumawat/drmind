@@ -12,14 +12,13 @@
                     <div class="card-header"><h6>Category</h6></div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="category_id" class="form-label">Category</label>
-                            <select class="form-control" id="category_id" name="category_id" required>
-                                <option value="">Select a Category</option>
+                            <label for="category_ids" class="form-label">Categories</label>
+                            <select class="form-control" id="category_ids" name="category_ids[]" multiple="multiple" required>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" {{ (is_array(old('category_ids')) && in_array($category->id, old('category_ids'))) ? 'selected' : '' }}>{{ $category->name }}</option>
                                 @endforeach
                             </select>
-                            @error('category_id')
+                            @error('category_ids')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -89,22 +88,19 @@
 
             <div class="draggable-item" data-id="slider">
                 <div class="card mb-3">
-                    <div class="card-header"><h6>Slider (Optional)</h6></div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="slider_text" class="form-label">Slider Text</label>
-                            <textarea class="form-control" id="slider_text" name="slider_text" rows="3">{{ old('slider_text') }}</textarea>
-                            @error('slider_text')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="slider_image" class="form-label">Slider Image</label>
-                            <input type="file" class="form-control" id="slider_image" name="slider_image" accept="image/*">
-                            @error('slider_image')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                     <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6>Slider (Optional)</h6>
+                        <button type="button" class="btn btn-primary btn-sm" id="add-slider-btn">
+                            <i class="fas fa-plus"></i> Add Slider
+                        </button>
+                    </div>
+                    <div class="card-body" id="sliders-container">
+                        {{-- Slider items will be dynamically added here --}}
+                        @if(old('sliders'))
+                            @foreach(old('sliders') as $key => $slider)
+                                @include('admin.pages.partials.slider_item', ['key' => $key, 'slider' => $slider])
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -162,16 +158,50 @@
 @endsection
 
 @push('styles')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
     #draggable-form-fields .card-header {
         cursor: move;
+    }
+    .select2-container--default .select2-selection--multiple {
+        border: 1px solid #ced4da;
     }
 </style>
 @endpush
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let sliderIndex = {{ old('sliders') ? count(old('sliders')) : 0 }};
+
+        document.getElementById('add-slider-btn').addEventListener('click', function() {
+            var sliderTemplate = `
+                @include('admin.pages.partials.slider_item', ['key' => 'REPLACE_KEY', 'slider' => null])
+            `;
+            var newSliderHtml = sliderTemplate.replace(/REPLACE_KEY/g, sliderIndex);
+            
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = newSliderHtml;
+            document.getElementById('sliders-container').appendChild(tempDiv.firstElementChild);
+            sliderIndex++;
+        });
+
+        document.getElementById('sliders-container').addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-slider-btn')) {
+                e.target.closest('.slider-item').remove();
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $('#category_ids').select2({
+            placeholder: "Select one or more categories",
+            allowClear: true
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         var el = document.getElementById('draggable-form-fields');
         if (el) {

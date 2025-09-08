@@ -16,7 +16,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        $pages = Page::with('category')->get();
+        $pages = Page::all();
         return view('admin.pages.index', compact('pages'));
     }
 
@@ -35,15 +35,17 @@ class PageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_id' => 'required|exists:categories,id',
+            'category_ids' => 'required|array',
+            'category_ids.*' => 'exists:categories,id',
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:pages,slug',
             'content' => 'required|string',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            // New homepage fields
             'is_homepage' => 'boolean',
-            'slider_text' => 'nullable|string',
-            'slider_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'sliders' => 'nullable|array',
+            'sliders.*.title' => 'nullable|string|max:255',
+            'sliders.*.description' => 'nullable|string',
+            'sliders.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'main_paragraph_content' => 'nullable|string',
             'extr-images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'settings_order' => 'nullable|json',
@@ -59,10 +61,20 @@ class PageController extends Controller
             }
         }
 
-        $sliderImagePath = null;
-        if ($request->hasFile('slider_image')) {
-            $path = $request->file('slider_image')->store('public/homepage/slider');
-            $sliderImagePath = str_replace('public/', '', $path);
+        $slidersData = [];
+        if ($request->has('sliders')) {
+            foreach ($request->sliders as $sliderData) {
+                $sliderImagePath = null;
+                if (isset($sliderData['image'])) {
+                    $path = $sliderData['image']->store('public/homepage/slider');
+                    $sliderImagePath = str_replace('public/', '', $path);
+                }
+                $slidersData[] = [
+                    'title' => $sliderData['title'],
+                    'description' => $sliderData['description'],
+                    'image_path' => $sliderImagePath,
+                ];
+            }
         }
 
         $extraImagePaths = [];
@@ -79,14 +91,13 @@ class PageController extends Controller
         }
 
         Page::create([
-            'category_id' => $request->category_id,
+            'category_ids' => $request->category_ids,
             'name' => $request->name,
             'slug' => $slug,
             'content' => $request->content,
             'image_paths' => json_encode($imagePaths),
             'is_homepage' => $request->has('is_homepage'),
-            'slider_text' => $request->slider_text,
-            'slider_image_path' => $sliderImagePath,
+            'sliders' => $slidersData,
             'main_paragraph_content' => $request->main_paragraph_content,
             'extr-image_paths' => json_encode($extraImagePaths),
             'settings_order' => $request->settings_order,
@@ -118,16 +129,18 @@ class PageController extends Controller
     public function update(Request $request, Page $page)
     {
         $request->validate([
-            'category_id' => 'required|exists:categories,id',
+            'category_ids' => 'required|array',
+            'category_ids.*' => 'exists:categories,id',
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:pages,slug,' . $page->id,
             'content' => 'required|string',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'delete_images' => 'nullable|array',
-            // New homepage fields
             'is_homepage' => 'boolean',
-            'slider_text' => 'nullable|string',
-            'slider_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'sliders' => 'nullable|array',
+            'sliders.*.title' => 'nullable|string|max:255',
+            'sliders.*.description' => 'nullable|string',
+            'sliders.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'main_paragraph_content' => 'nullable|string',
             'extr-images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'delete_extr_images' => 'nullable|array',
@@ -159,19 +172,34 @@ class PageController extends Controller
 
         $updatedImagePaths = array_merge(array_values($currentImagePaths), $newImagePaths);
 
-        // Handle slider image
-        $sliderImagePath = $page->slider_image_path;
-        if ($request->hasFile('slider_image')) {
-            // Delete old slider image if it exists
-            if ($sliderImagePath) {
-                Storage::delete('public/homepage/slider/' . basename($sliderImagePath));
-            }
-            $path = $request->file('slider_image')->store('public/homepage/slider');
-            $sliderImagePath = str_replace('public/', '', $path);
-        } else if ($request->input('delete_slider_image')) {
-            if ($sliderImagePath) {
-                Storage::delete('public/homepage/slider/' . basename($sliderImagePath));
-                $sliderImagePath = null;
+        // Handle sliders
+        $slidersData = [];
+        if ($request->has('sliders')) {
+            foreach ($request->sliders as $sliderData) {
+                $sliderImagePath = $sliderData['image_path'] ?? null;
+
+                // Delete old image if requested
+                if (isset($sliderData['delete_image']) && $sliderImagePath) {
+                    Storage::delete('public/' . $sliderImagePath);
+                    $sliderImagePath = null;
+                }
+
+                // Upload new image if provided
+                if (isset($sliderData['image'])) {
+                     if ($sliderImagePath) {
+                        Storage::delete('public/' . $sliderImagePath);
+                    }
+                    $path = $sliderData['image']->store('public/homepage/slider');
+                    $sliderImagePath = str_replace('public/', '', $path);
+                }
+
+                if ($sliderData['title'] || $sliderData['description'] || $sliderImagePath) {
+                    $slidersData[] = [
+                        'title' => $sliderData['title'],
+                        'description' => $sliderData['description'],
+                        'image_path' => $sliderImagePath,
+                    ];
+                }
             }
         }
 
@@ -205,14 +233,13 @@ class PageController extends Controller
         }
 
         $page->update([
-            'category_id' => $request->category_id,
+            'category_ids' => $request->category_ids,
             'name' => $request->name,
             'slug' => $slug,
             'content' => $request->content,
             'image_paths' => json_encode($updatedImagePaths),
             'is_homepage' => $request->has('is_homepage'),
-            'slider_text' => $request->slider_text,
-            'slider_image_path' => $sliderImagePath,
+            'sliders' => $slidersData,
             'main_paragraph_content' => $request->main_paragraph_content,
             'extr-image_paths' => json_encode($updatedExtraImagePaths),
             'settings_order' => $request->settings_order,

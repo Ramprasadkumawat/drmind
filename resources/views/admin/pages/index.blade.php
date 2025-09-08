@@ -27,7 +27,15 @@
             @forelse ($pages as $page)
                 <tr>
                     <td>{{ $page->id }}</td>
-                    <td>{{ $page->category->name ?? 'N/A' }}</td>
+                    <td>
+                        @if($page->categories())
+                            @foreach($page->categories() as $category)
+                                <span class="badge bg-primary">{{ $category->name }}</span>
+                            @endforeach
+                        @else
+                            N/A
+                        @endif
+                    </td>
                     <td>{{ $page->name }}</td>
                     <td>{{ $page->slug }}</td>
                     <td>

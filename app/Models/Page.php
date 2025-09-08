@@ -11,25 +11,46 @@ class Page extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'category_id',
+        'category_ids',
         'name',
         'slug',
         'content',
         'image_paths',
         'is_published',
         'is_homepage',
-        'slider_text',
-        'slider_image_path',
+        'sliders',
         'main_paragraph_content',
         'extr-image_paths',
         'settings_order',
     ];
 
+    protected $casts = [
+        'category_ids' => 'array',
+        'sliders' => 'array',
+        'image_paths' => 'array',
+        'extr-image_paths' => 'array',
+    ];
+
     /**
-     * Get the category that owns the page.
+     * Get the categories that belong to the page.
      */
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return Category::whereIn('id', $this->category_ids ?? [])->get();
+    }
+
+    public function getSlidersAttribute($value)
+    {
+        return json_decode($value, true) ?? [];
+    }
+
+    public function getImagePathsAttribute($value)
+    {
+        return json_decode($value, true) ?? [];
+    }
+
+    public function getExtrImagePathsAttribute($value)
+    {
+        return json_decode($value, true) ?? [];
     }
 }
